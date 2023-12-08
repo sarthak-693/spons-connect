@@ -1,16 +1,19 @@
 package com.sponsconnect.shared;
 
+import org.hibernate.annotations.Filter;
+
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
+@Filter(name = "is_delete", condition = "is_delete=false")
 public class BaseEntity {
 
     @Column(name = "created_date", nullable = false)
     private LocalDateTime createdDate = LocalDateTime.now();
 
-    @Column(name = "last_modified_date", nullable = false)
+    @Column(name = "updated_at", nullable = false)
     private LocalDateTime lastModifiedDate = LocalDateTime.now();
 
     @Column(name ="is_delete", nullable = false)

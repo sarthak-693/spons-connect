@@ -1,6 +1,5 @@
-package com.sponsconnect.event;
+package com.sponsconnect.event.entity;
 
-import com.sponsconnect.lead.userProfile.UserProfile;
 import com.sponsconnect.shared.BaseEntity;
 
 import javax.persistence.*;
@@ -36,11 +35,6 @@ public class Event extends BaseEntity {
     @Column(name = "status", nullable = false)
     private SponsorshipStatus status;
 
-    @Column(name = "created_date", nullable = false)
-    private LocalDateTime createdDate = LocalDateTime.now();
-
-    @Column(name = "last_modified_date", nullable = false)
-    private LocalDateTime lastModifiedDate = LocalDateTime.now();
 
 
     public Long getId() {
@@ -98,22 +92,6 @@ public class Event extends BaseEntity {
 
     public void setStatus(SponsorshipStatus status) {
         this.status = status;
-    }
-
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public LocalDateTime getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
     }
 }
 

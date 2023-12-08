@@ -1,9 +1,7 @@
-package com.sponsconnect.lead.userProfile;
+package com.sponsconnect.userProfile;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserProfileRepo extends JpaRepository<UserProfile, Long> {
-
-
 
 }

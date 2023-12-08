@@ -1,4 +1,4 @@
-package com.sponsconnect.lead.userProfile;
+package com.sponsconnect.userProfile;
 
 import javax.persistence.*;
 import org.hibernate.annotations.Filter;
@@ -10,7 +10,6 @@ import com.sponsconnect.shared.BaseEntity;
 
 
 @Entity(name = "user_profile")
-@Filter(name = "is_delete", condition = "is_delete=false")
 public class UserProfile extends BaseEntity {
 
     @Id

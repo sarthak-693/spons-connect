@@ -1,13 +1,13 @@
 package com.sponsconnect.lead.entity;
 
+import com.sponsconnect.shared.BaseEntity;
 import org.hibernate.annotations.Filter;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "user", schema = "public")
-@Filter(name = "is_delete", condition = "is_delete=false")
-public class User {
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
