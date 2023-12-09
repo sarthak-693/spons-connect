@@ -33,6 +33,11 @@ public class LoginController {
     public ResponseEntity<ResponseUtil> signUp(@RequestBody UserDTO userDTO){
         ResponseUtil response = null;
         try {
+
+            if (!loginService.isValidPhoneNumber(userDTO.getPhone())) {
+                response = new ResponseUtil(false, "Invalid phone number. Please provide a 10-digit phone number.");
+                return ResponseEntity.badRequest().body(response);
+            }
             User user = new User();
             user.setUsername(userDTO.getUsername());
             user.setEmail(userDTO.getEmail());

@@ -11,4 +11,6 @@ public interface LoginService {
     boolean login(UserDTO UserDTO) throws NoSuchAlgorithmException;
 
     boolean saveUser(User user) throws NoSuchAlgorithmException;
+
+    boolean isValidPhoneNumber(String phone);
 }

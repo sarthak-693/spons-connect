@@ -104,4 +104,9 @@ public abstract class UserServiceImpl implements UserService, LoginService {
         else
             throw new RuntimeException("user not found.");
     }
+
+    @Override
+    public boolean isValidPhoneNumber(String phone){
+        return phone != null && phone.matches("\\d{10}");
+    }
 }
