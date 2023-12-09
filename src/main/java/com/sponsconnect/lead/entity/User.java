@@ -6,7 +6,7 @@ import shared.BaseEntity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user", schema = "public")
+@Table(name = "login_user")
 public class User extends BaseEntity {
 
     @Id
@@ -21,16 +21,16 @@ public class User extends BaseEntity {
     private String username;
 
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "salt", nullable = false)
+    @Column(name = "salt")
     private String salt;
 
-    @Column(name = "password_hash", nullable = false)
+    @Column(name = "password_hash")
     private String passwordHash;
 
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email", nullable = false)
     private String email;
 
     @Column(name = "phone", nullable = false, unique = true)
