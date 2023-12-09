@@ -1,20 +1,21 @@
 package com.sponsconnect.event.entity;
 
-import com.sponsconnect.shared.BaseEntity;
+import com.sponsconnect.userProfile.UserProfile;
+import shared.BaseEntity;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity(name = "event")
+@Table(name ="Event")
 public class Event extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "sponsor_id", referencedColumnName = "id")
-//    private UserProfile sponsor;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sponsor_id", referencedColumnName = "id")
+    private UserProfile sponsor;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -28,17 +29,26 @@ public class Event extends BaseEntity {
     @Column(name = "budget", nullable = false)
     private Double budget;
 
-    @Column(name = "duration_in_months", nullable = false)
+    @Column(name = "duration_in_months")
     private Integer durationInMonths;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private SponsorshipStatus status;
 
+    public Event() {
+
+    }
 
 
     public Long getId() {
         return id;
+    }
+
+    public Event(Long id, UserProfile sponsor, SponsorshipStatus status) {
+        this.id = id;
+        this.sponsor = sponsor;
+        this.status = status;
     }
 
     public void setId(Long id) {

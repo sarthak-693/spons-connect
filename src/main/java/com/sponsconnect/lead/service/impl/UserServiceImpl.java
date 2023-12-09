@@ -1,19 +1,27 @@
 package com.sponsconnect.lead.service.impl;
 
 import com.sponsconnect.lead.entity.User;
+import com.sponsconnect.lead.login.LoginService;
 import com.sponsconnect.lead.repository.UserRepository;
 import com.sponsconnect.lead.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
-public class UserServiceImpl implements UserService {
+public abstract class UserServiceImpl implements UserService, LoginService {
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -30,18 +38,27 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("user not found.");
     }
 
-    @Override
-    public void saveUser(User user) {
-        log.info("inside saveUser ");
 
-        User userDetail = userRepository.save(user);
-        System.out.println("user saved to db with userId : " + userDetail.getId());
+    public boolean saveUser(User user, String hashedPassword, String salt) throws NoSuchAlgorithmException {
+        log.info("inside saveUser");
+        try {
+            user.setPasswordHash(hashedPassword);
+            user.setSalt(salt);
+            userRepository.save(user);
+            return true;
+        }
+        catch (Exception e) {
+            LoggerFactory.getLogger(UserServiceImpl.class).error("Error saving user", e);
+            return false;
+
+        }
     }
+
+
 
     @Override
     public List<User> getAllUsers() {
         log.info("inside getAllUsers ");
-
         return userRepository.findAll();
     }
 
@@ -53,7 +70,6 @@ public class UserServiceImpl implements UserService {
         if (userDetailOpt.isPresent()) {
             User userDetail = userDetailOpt.get();
 
-            // Check and update each field individually
             if (user.getUsername() != null && !user.getUsername().isEmpty()) {
                 userDetail.setUsername(user.getUsername());
             }
@@ -79,11 +95,12 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void deleteUseryId(Long userId) {
-
+    public void deleteUser(Long userId) {
         Optional<User> userOpt = userRepository.findById(userId);
-        if(userOpt.isPresent())
-            userRepository.deleteById(userId);
+        if(userOpt.isPresent()){
+            User userDetail = userOpt.get();
+            userDetail.setDelete(true);
+            userRepository.save(userDetail);}
         else
             throw new RuntimeException("user not found.");
     }

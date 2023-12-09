@@ -4,8 +4,8 @@ package com.sponsconnect.message;
 
 import javax.persistence.*;
 
-import com.sponsconnect.lead.userProfile.UserProfile;
-import com.sponsconnect.shared.BaseEntity;
+import com.sponsconnect.userProfile.UserProfile;
+import shared.BaseEntity;
 import org.hibernate.annotations.Filter;
 
 

@@ -1,4 +1,4 @@
-package com.sponsconnect.shared;
+package shared;
 
 import org.hibernate.annotations.Filter;
 
@@ -21,6 +21,14 @@ public class BaseEntity {
 
     public LocalDateTime getCreatedDate() {
         return createdDate;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
     }
 
     public void setCreatedDate(LocalDateTime createdDate) {

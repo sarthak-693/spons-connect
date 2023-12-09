@@ -1,7 +1,7 @@
 package com.sponsconnect.lead.entity;
 
-import com.sponsconnect.shared.BaseEntity;
-import org.hibernate.annotations.Filter;
+import com.sponsconnect.userProfile.UserProfile;
+import shared.BaseEntity;
 
 import javax.persistence.*;
 
@@ -13,15 +13,22 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @OneToOne
-//    @JoinColumn(name = "user_id", nullable = false,  referencedColumnName = "id")
-//    private UserProfile UserProfile;
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false,  referencedColumnName = "id")
+    private com.sponsconnect.userProfile.UserProfile UserProfile;
 
     @Column(name = "username", nullable = false)
     private String username;
 
+
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "salt", nullable = false)
+    private String salt;
+
+    @Column(name = "password_hash", nullable = false)
+    private String passwordHash;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
@@ -59,6 +66,10 @@ public class User extends BaseEntity {
         return username;
     }
 
+    public String getSalt() {
+        return salt;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -86,11 +97,26 @@ public class User extends BaseEntity {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
 }
 
-
-enum UserRole{
-    SEEKER,
-    SPONSOR;
-}
 

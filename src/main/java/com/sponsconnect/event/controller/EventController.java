@@ -1,6 +1,7 @@
 package com.sponsconnect.event.controller;
 
 import com.sponsconnect.event.entity.Event;
+import com.sponsconnect.event.eventDTO.EventDTO;
 import com.sponsconnect.event.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,13 +30,14 @@ public class EventController {
     }
 
     @PostMapping
+
     public ResponseEntity<Event> createEvent(@RequestBody Event event) {
         Event createdEvent = eventService.createEvent(event);
         return new ResponseEntity<>(createdEvent, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody Event updatedEvent) {
+    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody EventDTO updatedEvent) {
         Event event = eventService.updateEvent(id, updatedEvent);
         return event != null ? new ResponseEntity<>(event, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -44,5 +46,14 @@ public class EventController {
     public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
         eventService.deleteEvent(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+
+    @GetMapping("/api/events")
+    public List<Event> getEventsByParameters(
+            @RequestParam(required = false) String sponsorshipType,
+            @RequestParam(required = false) Double budget,
+            @RequestParam(required = false) Integer durationInMonths) {
+        return eventService.findByParameters(sponsorshipType, budget, durationInMonths);
     }
 }

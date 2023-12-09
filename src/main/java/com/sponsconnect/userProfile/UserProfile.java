@@ -1,11 +1,10 @@
 package com.sponsconnect.userProfile;
 
 import javax.persistence.*;
-import org.hibernate.annotations.Filter;
 
 import java.util.List;
 
-import com.sponsconnect.shared.BaseEntity;
+import shared.BaseEntity;
 
 
 
