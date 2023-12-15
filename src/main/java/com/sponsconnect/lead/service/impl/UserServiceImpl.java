@@ -1,12 +1,14 @@
 package com.sponsconnect.lead.service.impl;
 
 import com.sponsconnect.lead.entity.User;
-import com.sponsconnect.lead.login.LoginService;
+//import com.sponsconnect.lead.login.LoginService;
 import com.sponsconnect.lead.repository.UserRepository;
 import com.sponsconnect.lead.service.UserService;
+import com.sponsconnect.userProfile.UserProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -14,8 +16,8 @@ import java.util.Optional;
 
 
 
-@Service
-public abstract class UserServiceImpl implements UserService, LoginService {
+@Component
+public class UserServiceImpl implements UserService {
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -33,11 +35,19 @@ public abstract class UserServiceImpl implements UserService, LoginService {
     }
 
 
-    public boolean saveUser(User user, String hashedPassword, String salt) throws NoSuchAlgorithmException {
+    public boolean saveUser(User userDTO, String hashedPassword, String salt) throws NoSuchAlgorithmException {
         log.info("inside saveUser");
         try {
+            User user = new User();
+            user.setUsername(userDTO.getUsername());
+            user.setEmail(userDTO.getEmail());
+            user.setPhone(userDTO.getPhone());
+            user.setRole(userDTO.getRole());
             user.setPasswordHash(hashedPassword);
             user.setSalt(salt);
+
+            UserProfile userProfile = new UserProfile();
+            user.setUserprofile(userProfile);
             userRepository.save(user);
             return true;
         }
@@ -98,9 +108,9 @@ public abstract class UserServiceImpl implements UserService, LoginService {
         else
             throw new RuntimeException("user not found.");
     }
-
-    @Override
-    public boolean isValidPhoneNumber(String phone){
-        return phone != null && phone.matches("\\d{10}");
-    }
+//
+//    @Override
+//    public boolean isValidPhoneNumber(String phone){
+//        return phone != null && phone.matches("\\d{10}");
+//    }
 }

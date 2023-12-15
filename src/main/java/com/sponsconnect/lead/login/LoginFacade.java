@@ -3,11 +3,16 @@ package com.sponsconnect.lead.login;
 import com.sponsconnect.lead.entity.User;
 import com.sponsconnect.lead.repository.UserRepository;
 import com.sponsconnect.lead.service.impl.UserServiceImpl;
-import com.sponsconnect.lead.userDto.UserDTO;
+//import com.sponsconnect.lead.userDto.UserDTO;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import shared.ResponseUtil;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -15,7 +20,7 @@ import java.util.Base64;
 
 
 @Component
-public abstract class LoginFacade implements LoginService{
+public class LoginFacade implements LoginService{
 
     @Autowired
     private UserServiceImpl userServiceImpl;
@@ -25,7 +30,8 @@ public abstract class LoginFacade implements LoginService{
     private static final Logger log = LoggerFactory.getLogger(LoginFacade.class);
 
     @Override
-    public boolean login(UserDTO userDTO) throws NoSuchAlgorithmException {
+    public boolean login(User userDTO) throws NoSuchAlgorithmException {
+        log.info("inside login");
         String identifier = userDTO.getPhone();
 
         User user = userRepo.findByPhone(identifier);
@@ -63,13 +69,23 @@ public abstract class LoginFacade implements LoginService{
     }
 
 
-    @Override
-    public boolean saveUser(User user) throws NoSuchAlgorithmException {
+
+    public boolean saveUser(User userDTO) throws NoSuchAlgorithmException {
+        log.info("inside saveUser");
+        if (isValidPhoneNumber(userDTO.getPhone())) {
+            return false;
+        }
+
         String salt = generateSalt();
 
-        String hashedPassword = hashPassword(user.getPassword(), salt);
+        String hashedPassword = hashPassword(userDTO.getPassword(), salt);
 
-        return userServiceImpl.saveUser(user, hashedPassword, salt);
+        return userServiceImpl.saveUser(userDTO, hashedPassword, salt);
 
     }
+
+    private boolean isValidPhoneNumber(String phone){
+        return phone.length() == 10;
+    }
+
 }

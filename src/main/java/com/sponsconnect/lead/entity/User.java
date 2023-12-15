@@ -2,8 +2,9 @@ package com.sponsconnect.lead.entity;
 
 import com.sponsconnect.userProfile.UserProfile;
 import shared.BaseEntity;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "login_user")
@@ -13,15 +14,18 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false,  referencedColumnName = "id")
-    private com.sponsconnect.userProfile.UserProfile UserProfile;
-
     @Column(name = "username", nullable = false)
+    @NotBlank(message = "Username cannot be blank")
+    @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
     private String username;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id", unique = true)
+    private UserProfile userProfile;
 
 
     @Column(name = "password")
+    @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
     private String password;
 
     @Column(name = "salt")
@@ -49,9 +53,18 @@ public class User extends BaseEntity {
         this.role = role;
     }
 
+    public UserProfile getUserprofile() {
+        return userProfile;
+    }
+
+    public void setUserprofile(UserProfile userprofile) {
+        this.userProfile = userprofile;
+    }
+
     public User() {
 
     }
+
 
 
     public Long getId() {

@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+
+
+
+/ Primary contact and secondary contact should be different in user than login because login can be of admin person but sponsor person can be different

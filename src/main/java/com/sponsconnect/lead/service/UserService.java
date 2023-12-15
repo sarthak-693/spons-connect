@@ -1,12 +1,11 @@
 package com.sponsconnect.lead.service;
 
 import com.sponsconnect.lead.entity.User;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-@Component
+@Service
 public interface UserService {
 
     User getUserById(Long id);
