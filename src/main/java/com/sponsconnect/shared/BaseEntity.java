@@ -1,4 +1,4 @@
-package shared;
+package com.sponsconnect.shared;
 
 import org.hibernate.annotations.Filter;
 

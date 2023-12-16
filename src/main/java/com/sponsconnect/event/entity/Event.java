@@ -1,7 +1,7 @@
 package com.sponsconnect.event.entity;
 
 import com.sponsconnect.userProfile.UserProfile;
-import shared.BaseEntity;
+import com.sponsconnect.shared.BaseEntity;
 
 import javax.persistence.*;
 

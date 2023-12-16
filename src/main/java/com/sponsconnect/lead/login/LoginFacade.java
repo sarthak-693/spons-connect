@@ -4,19 +4,18 @@ import com.sponsconnect.lead.entity.User;
 import com.sponsconnect.lead.repository.UserRepository;
 import com.sponsconnect.lead.service.impl.UserServiceImpl;
 //import com.sponsconnect.lead.userDto.UserDTO;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import shared.ResponseUtil;
+import com.sponsconnect.shared.Constants;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @Component
@@ -72,7 +71,11 @@ public class LoginFacade implements LoginService{
 
     public boolean saveUser(User userDTO) throws NoSuchAlgorithmException {
         log.info("inside saveUser");
-        if (isValidPhoneNumber(userDTO.getPhone())) {
+        if (!isValidPhoneNumber(userDTO.getPhone())) {
+            return false;
+        }
+
+        if(!isValidEmail(userDTO.getEmail())){
             return false;
         }
 
@@ -86,6 +89,14 @@ public class LoginFacade implements LoginService{
 
     private boolean isValidPhoneNumber(String phone){
         return phone.length() == 10;
+    }
+
+    private boolean isValidEmail(String email){
+        log.info("inside isValidEmail");
+        Pattern pattern = Pattern.compile(Constants.EMAIL_REGEX);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+
     }
 
 }

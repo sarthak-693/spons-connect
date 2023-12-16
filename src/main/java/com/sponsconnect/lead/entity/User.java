@@ -1,7 +1,7 @@
 package com.sponsconnect.lead.entity;
 
 import com.sponsconnect.userProfile.UserProfile;
-import shared.BaseEntity;
+import com.sponsconnect.shared.BaseEntity;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;

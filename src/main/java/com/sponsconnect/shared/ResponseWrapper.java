@@ -1,9 +1,13 @@
-package shared;
+package com.sponsconnect.shared;
 
-public class ResponseUtil {
+public class ResponseWrapper {
 
     private boolean success;
     private String message;
+
+    public ResponseWrapper() {
+
+    }
 
     public boolean isSuccess() {
         return success;
@@ -21,7 +25,7 @@ public class ResponseUtil {
         this.message = message;
     }
 
-    public ResponseUtil(boolean success, String message) {
+    public ResponseWrapper(boolean success, String message) {
         this.success = success;
         this.message = message;
     }

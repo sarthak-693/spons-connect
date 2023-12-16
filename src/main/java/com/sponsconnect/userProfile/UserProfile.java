@@ -4,17 +4,13 @@ import javax.persistence.*;
 
 import java.util.List;
 
-import com.sponsconnect.lead.entity.User;
-import shared.BaseEntity;
+import com.sponsconnect.shared.BaseEntity;
 
 
 
 @Entity(name = "user_profile")
 public class UserProfile extends BaseEntity {
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_login_id", nullable = false)
-//    private User userLoginId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -96,6 +92,11 @@ public class UserProfile extends BaseEntity {
     public void setInterests(List<String> interests) {
         this.interests = interests;
     }
+
+    public UserProfile(Long id) {
+        this.id = id;
+    }
+
 
 
 }
