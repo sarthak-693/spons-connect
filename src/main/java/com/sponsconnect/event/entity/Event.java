@@ -14,8 +14,8 @@ public class Event extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sponsor_id", referencedColumnName = "id")
-    private UserProfile sponsor;
+    @JoinColumn(name = "seeker", referencedColumnName = "id")
+    private UserProfile seeker;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -23,18 +23,18 @@ public class Event extends BaseEntity {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "sponsorship_type", nullable = false)
-    private String sponsorshipType;
-
-    @Column(name = "budget", nullable = false)
+    @Column(name = "budget")
     private Double budget;
+
+    @Column(name= "location" , nullable =false)
+    private String location;
 
     @Column(name = "duration_in_months")
     private Integer durationInMonths;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
-    private SponsorshipStatus status;
+    @Column(name = "status")
+    private ApplicationStatus status;
 
     public Event() {
 
@@ -45,9 +45,8 @@ public class Event extends BaseEntity {
         return id;
     }
 
-    public Event(Long id, UserProfile sponsor, SponsorshipStatus status) {
+    public Event(Long id, ApplicationStatus status) {
         this.id = id;
-        this.sponsor = sponsor;
         this.status = status;
     }
 
@@ -72,13 +71,6 @@ public class Event extends BaseEntity {
         this.description = description;
     }
 
-    public String getSponsorshipType() {
-        return sponsorshipType;
-    }
-
-    public void setSponsorshipType(String sponsorshipType) {
-        this.sponsorshipType = sponsorshipType;
-    }
 
     public Double getBudget() {
         return budget;
@@ -96,20 +88,31 @@ public class Event extends BaseEntity {
         this.durationInMonths = durationInMonths;
     }
 
-    public SponsorshipStatus getStatus() {
+    public ApplicationStatus getStatus() {
         return status;
     }
 
-    public void setStatus(SponsorshipStatus status) {
+    public void setStatus(ApplicationStatus status) {
         this.status = status;
+    }
+
+
+    public UserProfile getSeeker() {
+        return seeker;
+    }
+
+    public void setSeeker(UserProfile seeker) {
+        this.seeker = seeker;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }
 
 
 
-enum SponsorshipStatus {
-    PENDING,
-    APPROVED,
-    REJECTED,
-    COMPLETED
-}

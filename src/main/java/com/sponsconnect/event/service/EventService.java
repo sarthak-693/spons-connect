@@ -1,7 +1,7 @@
 package com.sponsconnect.event.service;
 
 import com.sponsconnect.event.entity.Event;
-import com.sponsconnect.event.eventDTO.EventDTO;
+import com.sponsconnect.event.eventDTO.EventRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,11 +12,13 @@ public interface EventService {
 
     Optional<Event> getEventById(Long id);
 
-    Event createEvent(Event event);
+    Event createEvent(EventRequest event);
 
-    Event updateEvent(Long id, EventDTO updateDTO);
+    Event updateEvent(Long id, EventRequest updateDTO);
     void deleteEvent(Long id);
 
-    List<Event> findByParameters(String sponsorshipType, Double budget, Integer durationInMonths) ;
+    List<Event> findByParameters(Double budget, Integer durationInMonths) ;
+
+    List<Object> globalSearch(String pattern);
 
     }

@@ -1,7 +1,7 @@
 package com.sponsconnect.event.controller;
 
 import com.sponsconnect.event.entity.Event;
-import com.sponsconnect.event.eventDTO.EventDTO;
+import com.sponsconnect.event.eventDTO.EventRequest;
 import com.sponsconnect.event.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("/api/events")
+@RequestMapping("events")
 public class EventController {
 
     @Autowired
@@ -29,15 +29,14 @@ public class EventController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping
-
-    public ResponseEntity<Event> createEvent(@RequestBody Event event) {
+    @PostMapping("/create")
+    public ResponseEntity<Event> createEvent(@RequestBody EventRequest event) {
         Event createdEvent = eventService.createEvent(event);
         return new ResponseEntity<>(createdEvent, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody EventDTO updatedEvent) {
+    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody EventRequest updatedEvent) {
         Event event = eventService.updateEvent(id, updatedEvent);
         return event != null ? new ResponseEntity<>(event, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -54,6 +53,21 @@ public class EventController {
             @RequestParam(required = false) String sponsorshipType,
             @RequestParam(required = false) Double budget,
             @RequestParam(required = false) Integer durationInMonths) {
-        return eventService.findByParameters(sponsorshipType, budget, durationInMonths);
+        return eventService.findByParameters( budget, durationInMonths);
+    }
+
+
+    @GetMapping("global-search")
+    public ResponseEntity<List<Object>> globalSearch(@RequestBody String pattern){
+        List<Object> searchResults;
+        try{
+            searchResults = eventService.globalSearch(pattern);
+        }
+        catch(Exception e){
+            e.getStackTrace();
+            searchResults = null;
+        }
+        return ResponseEntity.ok(searchResults);
+
     }
 }

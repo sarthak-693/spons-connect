@@ -9,9 +9,11 @@ import java.util.List;
 
 public interface EventRepo extends JpaRepository<Event, Long> {
 
-    List<Event> findBySponsorshipTypeAndBudgetAndDurationInMonths(
-            String sponsorshipType, Double budget, Integer durationInMonths
+    List<Event> findByAndBudgetAndDurationInMonths(
+             Double budget, Integer durationInMonths
     );
+
+    List<Event> findByTitleContainingOrLocationContaining(String title, String location);
 
 
 }
